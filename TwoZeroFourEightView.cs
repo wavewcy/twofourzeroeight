@@ -50,10 +50,28 @@ namespace twozerofoureight
                     l.BackColor = Color.Orange;
                     break;
                 case 8:
-                    l.BackColor = Color.Red;
+                    l.BackColor = Color.Coral;
+                    break;
+                case 16:
+                    l.BackColor = Color.Crimson;
+                    break;
+                case 32:
+                    l.BackColor = Color.MediumVioletRed;
+                    break;
+                case 64:
+                    l.BackColor = Color.DarkMagenta;
+                    break;
+                case 128:
+                    l.BackColor = Color.MidnightBlue;
+                    break;
+                case 256:
+                    l.BackColor = Color.MediumSlateBlue;
+                    break;
+                case 512:
+                    l.BackColor = Color.DarkTurquoise;
                     break;
                 default:
-                    l.BackColor = Color.Green;
+                    l.BackColor = Color.LightSkyBlue;
                     break;
             }
         }
@@ -75,6 +93,14 @@ namespace twozerofoureight
             UpdateTile(lbl31,board[3, 1]);
             UpdateTile(lbl32,board[3, 2]);
             UpdateTile(lbl33,board[3, 3]);
+            scoreBox.Text = ((TwoZeroFourEightModel)model).GetScore();
+            if (((TwoZeroFourEightModel)model).IsFullBoard(board))
+            {
+                if (!((TwoZeroFourEightModel)model).CanMove(board))
+                {
+                    MessageBox.Show("Game Over !!!");
+                }
+            }
         }
 
         private void btnLeft_Click(object sender, EventArgs e)
@@ -97,5 +123,29 @@ namespace twozerofoureight
             controller.ActionPerformed(TwoZeroFourEightController.DOWN);
         }
 
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (keyData == (Keys.Right))
+            {
+                btnRight.PerformClick();
+                return true;
+            }
+            if (keyData == (Keys.Left))
+            {
+                btnLeft.PerformClick();
+                return true;
+            }
+            if (keyData == (Keys.Up))
+            {
+                btnUp.PerformClick();
+                return true;
+            }
+            if (keyData == (Keys.Down))
+            {
+                btnDown.PerformClick();
+                return true;
+            }
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
     }
 }

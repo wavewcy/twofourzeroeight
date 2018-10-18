@@ -11,6 +11,7 @@ namespace twozerofoureight
         protected int boardSize; // default is 4
         protected int[,] board;
         protected Random rand;
+        public int score = 0;
 
         public TwoZeroFourEightModel() : this(4)
         {
@@ -36,9 +37,15 @@ namespace twozerofoureight
         {
             return board;
         }
+        public string GetScore()
+        {
+            return score.ToString();
+        }
+
 
         private int[,] Random(int[,] input)
         {
+            int count = 0;
             while (true)
             {
                 int x = rand.Next(boardSize);
@@ -48,8 +55,61 @@ namespace twozerofoureight
                     board[x, y] = 2;
                     break;
                 }
+                if (board[x, y] != 0)
+                {
+                    count++;
+                }
+                if (count == 16)
+                {
+                    break;
+                }
             }
             return input;
+        }
+
+        public bool IsFullBoard(int[,] board)
+        {
+            int count = 0;
+            for (int i = 0; i < 4; i++)
+            {
+                for (int j = 0; j < 4; j++)
+                {
+                    if (board[i, j] != 0)
+                    {
+                        count++;
+                    }
+                }
+            }
+            if (count == 16)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public bool CanMove(int[,] board)
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                for (int j = 0; j < 4; j++)
+                {
+                    if (board[i, j] == board[i + 1, j])
+                    {
+                        return true;
+                    }
+                }
+            }
+            for (int i = 0; i < 4; i++)
+            {
+                for (int j = 0; j < 3; j++)
+                {
+                    if (board[i, j] == board[i, j + 1])
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
 
         public void PerformDown()
@@ -82,6 +142,7 @@ namespace twozerofoureight
                     if (j > 0 && buffer[j] != 0 && buffer[j] == buffer[j - 1])
                     {
                         buffer[j - 1] *= 2;
+                        score += buffer[j - 1];
                         buffer[j] = 0;
                     }
                 }
@@ -134,6 +195,7 @@ namespace twozerofoureight
                     if (j > 0 && buffer[j] != 0 && buffer[j] == buffer[j - 1])
                     {
                         buffer[j - 1] *= 2;
+                        score += buffer[j - 1];
                         buffer[j] = 0;
                     }
                 }
@@ -188,6 +250,7 @@ namespace twozerofoureight
                     if (j > 0 && buffer[j] != 0 && buffer[j] == buffer[j - 1])
                     {
                         buffer[j - 1] *= 2;
+                        score += buffer[j - 1];
                         buffer[j] = 0;
                     }
                 }
@@ -239,6 +302,7 @@ namespace twozerofoureight
                     if (j > 0 && buffer[j] != 0 && buffer[j] == buffer[j - 1])
                     {
                         buffer[j - 1] *= 2;
+                        score += buffer[j - 1];
                         buffer[j] = 0;
                     }
                 }
